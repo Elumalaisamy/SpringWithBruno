@@ -1,0 +1,29 @@
+meta {
+  name: Delete Product
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/products/3
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response has success true", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+
+  test("Message confirms deletion", function() {
+    expect(res.getBody().message).to.equal("Product deleted successfully");
+  });
+}

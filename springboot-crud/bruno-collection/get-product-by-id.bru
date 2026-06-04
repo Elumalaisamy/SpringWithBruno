@@ -1,0 +1,33 @@
+meta {
+  name: Get Product By ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/products/1
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response has success true", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+
+  test("Product has an id", function() {
+    expect(res.getBody().data).to.have.property("id");
+  });
+
+  test("Product id matches requested id", function() {
+    expect(res.getBody().data.id).to.equal(1);
+  });
+}

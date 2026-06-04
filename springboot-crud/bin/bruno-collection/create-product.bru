@@ -1,0 +1,46 @@
+meta {
+  name: Create Product
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/products
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Samsung Galaxy S24",
+    "description": "Android flagship smartphone with AI features",
+    "price": 899.99,
+    "quantity": 30
+  }
+}
+
+tests {
+  test("Status is 201 Created", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("Response has success true", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+
+  test("Created product has id", function() {
+    expect(res.getBody().data).to.have.property("id");
+  });
+
+  test("Created product name matches", function() {
+    expect(res.getBody().data.name).to.equal("Samsung Galaxy S24");
+  });
+
+  test("Created product price matches", function() {
+    expect(res.getBody().data.price).to.equal(899.99);
+  });
+}

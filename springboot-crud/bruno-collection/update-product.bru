@@ -1,0 +1,46 @@
+meta {
+  name: Update Product
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/products/1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "MacBook Pro Updated",
+    "description": "Apple 16-inch laptop with M3 Max chip",
+    "price": 2499.99,
+    "quantity": 8
+  }
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response has success true", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+
+  test("Updated product name matches", function() {
+    expect(res.getBody().data.name).to.equal("MacBook Pro Updated");
+  });
+
+  test("Updated product price matches", function() {
+    expect(res.getBody().data.price).to.equal(2499.99);
+  });
+
+  test("updatedAt is present", function() {
+    expect(res.getBody().data).to.have.property("updatedAt");
+  });
+}
